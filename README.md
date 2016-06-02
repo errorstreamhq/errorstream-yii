@@ -1,5 +1,5 @@
 # ErrorStream-Yii
-This package is for yii 1.0 integration with ErrorStream.com. 
+This package is for yii 1.0 integration with [ErrorStream.com](https://errorstream.com/). 
 
 
 # Installation:
