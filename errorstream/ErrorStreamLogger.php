@@ -29,7 +29,6 @@ class ErrorStreamLogger extends CLogRoute
     public function init()
     {
         Yii::app()->attachEventHandler('onException', array($this, 'handleException'));
-        Yii::app()->attachEventHandler('onError', array($this, 'handleError'));
     }
 
     /**
@@ -37,39 +36,6 @@ class ErrorStreamLogger extends CLogRoute
      */
     public function handleException($event) {
         $this->reportException($event->exception);
-    }
-
-    /**
-     * Catch and handle errors to errorstream.
-     */
-    public function handleError($event) {
-        if(!is_object($event)){
-            return false;
-        }
-
-        if(!isset($event->message)){
-            return false;
-        }
-
-        if(!isset($event->file)){
-            return false;
-        }
-
-        if(!isset($event->code)){
-            return false;
-        }
-
-        $report = [
-            'error_group'   => $event->message,
-            'line_number'   => $event->file,
-            'file_name'     => $event->file,
-            'message'       => $event->message,
-            'stack_trace'   => $event->code,
-            'severity'      => 3,
-        ];
-
-        $this->sendReport($report);
-
     }
 
     /**
@@ -90,12 +56,18 @@ class ErrorStreamLogger extends CLogRoute
             $array = explode("\n", $log[0]);
             $message = implode('<br>', $array);
 
+            //As long as it's a CHttpException, ignore it. Desired behavior for page not found.
+            if(false !== stristr($message, 'CHttpException')){
+                continue;
+            }
+
             $report = [
                 'error_group'   => $message,
                 'line_number'   => 0,
                 'file_name'     => 'N/A',
                 'message'       => $message,
                 'severity'      => $this->getSeverity($log),
+                'stack_trace'   => $message,
             ];
 
             $this->makeRequest($report);
