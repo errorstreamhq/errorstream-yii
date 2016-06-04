@@ -21,6 +21,7 @@ class ErrorStreamLogger extends CLogRoute
     public $api_token = '';
     public $project_token = '';
     public $levels = '';
+    public $enabled = true;
 
     /**
      * Init. Yii has two forms of errors.. errors and exceptions.
@@ -28,6 +29,7 @@ class ErrorStreamLogger extends CLogRoute
      */
     public function init()
     {
+        if(!$this->enabled) return;
         Yii::app()->attachEventHandler('onException', array($this, 'handleException'));
     }
 
@@ -35,6 +37,7 @@ class ErrorStreamLogger extends CLogRoute
      * Catch and handle exceptions to errorstream
      */
     public function handleException($event) {
+        if(!$this->enabled) return;
         $this->reportException($event->exception);
     }
 
@@ -45,6 +48,8 @@ class ErrorStreamLogger extends CLogRoute
      */
     protected function processLogs($logs)
     {
+        if(!$this->enabled) return false;
+
         //Don't send anything when in debug mode.
         if (defined('YII_DEBUG') && YII_DEBUG === true) {
             return false;
@@ -96,6 +101,8 @@ class ErrorStreamLogger extends CLogRoute
      */
     public function reportException(Exception $ex)
     {
+        if(!$this->enabled) return false;
+
         //Dont do anything in debug mode.
         if (defined('YII_DEBUG') && YII_DEBUG === true) {
             return false;
