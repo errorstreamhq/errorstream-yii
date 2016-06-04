@@ -22,6 +22,7 @@ This package is for yii 1.0 integration with [ErrorStream.com](https://errorstre
           'api_token'     => 'YOUR API TOKEN HERE',
           'project_token' => 'YOUR PROJECT TOKEN HERE',
           'levels'        => 'info, error, warning',
+          'enabled'       => true,
         ),
   	),
 ),
