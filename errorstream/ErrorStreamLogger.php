@@ -50,11 +50,6 @@ class ErrorStreamLogger extends CLogRoute
     {
         if(!$this->enabled) return false;
 
-        //Don't send anything when in debug mode.
-        if (defined('YII_DEBUG') && YII_DEBUG === true) {
-            return false;
-        }
-
         //Process logs
         foreach($logs as $log) {
 
@@ -102,11 +97,6 @@ class ErrorStreamLogger extends CLogRoute
     public function reportException(Exception $ex)
     {
         if(!$this->enabled) return false;
-
-        //Dont do anything in debug mode.
-        if (defined('YII_DEBUG') && YII_DEBUG === true) {
-            return false;
-        }
 
         //Ignore 404 errors.
         if(isset($ex->statusCode) && $ex->statusCode == '404'){
