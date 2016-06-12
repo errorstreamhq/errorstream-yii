@@ -17,7 +17,7 @@ array(
  */
 class ErrorStreamLogger extends CLogRoute
 {
-    public $url = 'http://www.errorstream.com/api/1.0/errors/create';
+    public $url = 'https://www.errorstream.com/api/1.0/errors/create';
     public $api_token = '';
     public $project_token = '';
     public $levels = '';
@@ -125,7 +125,6 @@ class ErrorStreamLogger extends CLogRoute
         $authData = ['api_token' => $this->api_token, 'project_token' => $this->project_token];
         $url = $this->url . '?' . http_build_query($authData);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
