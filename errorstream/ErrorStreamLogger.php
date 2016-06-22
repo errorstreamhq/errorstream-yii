@@ -61,14 +61,14 @@ class ErrorStreamLogger extends CLogRoute
                 continue;
             }
 
-            $report = [
+            $report = array(
                 'error_group'   => $message,
                 'line_number'   => 0,
                 'file_name'     => 'N/A',
                 'message'       => $message,
                 'severity'      => $this->getSeverity($log),
                 'stack_trace'   => $message,
-            ];
+            );
 
             $this->makeRequest($report);
         }
@@ -122,7 +122,7 @@ class ErrorStreamLogger extends CLogRoute
      */
     private function makeRequest($data)
     {
-        $authData = ['api_token' => $this->api_token, 'project_token' => $this->project_token];
+        $authData = array('api_token' => $this->api_token, 'project_token' => $this->project_token);
         $url = $this->url . '?' . http_build_query($authData);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
